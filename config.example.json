@@ -1,0 +1,51 @@
+{
+  "drives": [
+    {
+      "name": "MyExternalSSD",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "eject": ["~/.local/bin/eject-ssd"],
+      "verify": ["~/.local/bin/ssd-verify"],
+      "healthFile": "~/.ssd-health",
+      "verifyFlagFile": "~/.ssd-needs-verify",
+      "clearOnMount": ["~/.ssd-ejected"],
+      "folders": ["Backups"]
+    }
+  ],
+  "cleanup": {
+    "sizes": ["~/.local/bin/mac-clean", "ukuran"],
+    "actions": [
+      { "title": "Bersihin semua yang aman", "run": ["~/.local/bin/mac-clean", "semua"] },
+      { "title": "Clear app caches", "run": ["~/.local/bin/mac-clean", "cache"] },
+      { "title": "Salinan Chrome yang ketinggalan", "run": ["~/.local/bin/mac-clean", "chrome"] },
+      { "title": "Simulator iOS", "run": ["~/.local/bin/mac-clean", "simulator"] },
+      { "title": "Temp files", "run": ["~/.local/bin/mac-clean", "temp"] },
+      { "title": "-" },
+      { "title": "Buka WhatsApp (Settings → Storage)", "open": "WhatsApp" },
+      { "title": "Buka Storage Settings", "open": "x-apple.systempreferences:com.apple.settings.Storage" }
+    ],
+    "log": "~/Library/Logs/mac-clean.log"
+  },
+  "wake": {
+    "log": "~/Library/Logs/ssd-wakeup.log",
+    "process": "sleepwatcher",
+    "start": ["/opt/homebrew/bin/brew", "services", "start", "sleepwatcher"],
+    "ignore": [" wake", "health:"]
+  },
+  "vpn": {
+    "forti": {
+      "connect": ["~/.local/bin/vpn", "forti", "on"],
+      "disconnect": ["~/.local/bin/vpn", "forti", "off"],
+      "restart": ["~/.local/bin/vpn", "forti", "restart"]
+    },
+    "globalProtect": {
+      "connect": ["~/.local/bin/vpn", "gp", "on"],
+      "disconnect": ["~/.local/bin/vpn", "gp", "off"],
+      "restart": ["~/.local/bin/vpn", "gp", "restart"]
+    },
+    "extra": [
+      { "title": "Cek posture FortiClient", "run": ["~/.local/bin/vpn", "posture"], "terminal": true },
+      { "title": "Restart semua", "run": ["~/.local/bin/vpn", "restart"] },
+      { "title": "Status lengkap…", "run": ["~/.local/bin/vpn", "status"], "terminal": true }
+    ]
+  }
+}
